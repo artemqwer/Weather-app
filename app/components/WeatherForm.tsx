@@ -1,15 +1,32 @@
 "use client";
-interface WeatherFormProps {
-    city: string;
-    setCity: (city: string) => void;
-    getWeather: () => void;
-}
 
-export default function WeatherForm({ city, setCity, getWeather }: { city: string; setCity: (city: string) => void; getWeather: () => void }) {
-return (
-    <div className="flex flex-col items-center gap-4">
-        <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Enter city" className="border border-gray-400 rounded-lg px-4 py-2 w-64"/>
-        <button className="bg-orange-600 text-white px-6 py-2 rounded-lg hover: bg-orange-600 active: scale-95 transition font-medium" onClick={getWeather}>Отримати погоду</button>
-    </div>
-);
+import React from "react";
+
+// Описуємо типи пропсів, щоб TypeScript не сварився
+type WeatherFormProps = {
+  city: string;
+  setCity: (city: string) => void;
+  getWeather: (e: React.FormEvent) => void; // Вказуємо, що це функція, яка приймає подію форми
 };
+
+const WeatherForm = ({ city, setCity, getWeather }: WeatherFormProps) => {
+  return (
+    <form onSubmit={getWeather} className="flex w-full max-w-md items-center space-x-2">
+      <input
+        type="text"
+        placeholder="Введіть місто (напр. Київ)"
+        className="flex-1 p-2 border border-gray-300 rounded-lg text-Orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+      />
+      <button
+        type="submit"
+        className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+      >
+        Пошук
+      </button>
+    </form>
+  );
+};
+
+export default WeatherForm;
